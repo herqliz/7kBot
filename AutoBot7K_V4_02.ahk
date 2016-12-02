@@ -1194,7 +1194,7 @@ global FightLeader:=0
 		 ControlClick,x624 y541, ahk_id %hwnd%
 	  } 
            if (SearchScreen("Img\ArenaStart.png",1,5,"INFO-ARENA> CLICK START","WARNING-ARENA> NOT FOUND START BUTTON-ArenaStart.png") or SearchScreen("Img\ArenaStart1.png",1,5,"INFO-ARENA> CLICK START1","WARNING-ARENA> NOT FOUND START1 BUTTON-ArenaStart1.png") or SearchScreen("Img\ArenaStart2.png",1,5,"INFO-ARENA> CLICK START2","WARNING-ARENA> NOT FOUND START2 BUTTON-ArenaStart2.png")) {
-             if (SearchScreen("Img\ArenaNoKey.png",1,1,"INFO-ARENA> NO ENOUGH KEY BACK TO LOBBY","") or (SearchScreen("Img\ArenaSeasonEnd.png",1,1,"INFO-ARENA> SEASON END ... CANNOT START","")) or SearchScreen("Img\ArenaNotFindMatch.png",1,1,"INFO-ARENA> NOT FIND MATCH ... EXIT","")) {
+             if (SearchScreen("Img\ArenaNoKey.png",1,1,"INFO-ARENA> NO ENOUGH KEY BACK TO LOBBY","") or SearchScreen("Img\ArenaNoKey1.png",1,1,"INFO-ARENA> NO ENOUGH KEY BACK TO LOBBY","") or (SearchScreen("Img\ArenaSeasonEnd.png",1,1,"INFO-ARENA> SEASON END ... CANNOT START","")) or SearchScreen("Img\ArenaNotFindMatch.png",1,1,"INFO-ARENA> NOT FIND MATCH ... EXIT","")) {
                ClickBackToHome()
                return 0
              }
