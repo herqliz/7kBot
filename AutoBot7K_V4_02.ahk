@@ -1644,7 +1644,7 @@ DragonFight(){
                SkillHitDragonEnd()
                return 0
              }
-             if (SearchScreen("Img\RaidFinish.png",1,0,"INFO-RAID> CLICK RAID FINISH","") ) {
+             if (SearchScreen("Img\RaidFinish.png",1,0,"INFO-RAID> CLICK RAID FINISH","") or SearchScreen("Img\RaidFinish1.png",1,0,"INFO-RAID> CLICK RAID FINISH","")) {
                ClickBackToHome()
                SkillHitDragonEnd()
                return 1
