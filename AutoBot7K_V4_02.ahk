@@ -604,6 +604,12 @@ ClickBackToHome(Timeout="25") {
   if (SearchScreen("Img\Home-Adventure1.png",0,0,"INFO-FOUND ADVENTURE1","INFO-BACKING TO HOME1")) {
     break
   }
+    if (SearchScreen("Img\Home-Adventure2.png",0,0,"INFO-FOUND ADVENTURE2","INFO-BACKING TO HOME")) {
+    break
+  }
+    if (SearchScreen("Img\Home-Battle.png",0,0,"INFO-FOUND BATTLE","INFO-BACKING TO HOME")) {
+    break
+  }
  }
  CloseDragonPopUP()
  PrintLog("INFO-HOME SCREEN NOW",1)
@@ -1533,7 +1539,8 @@ ChangeLeader(IndexHero="1") {
     ControlClick,x523 y453, ahk_id %hwnd%,,,,D
     ControlClick,x523 y305, ahk_id %hwnd%,,,,U
     PrintLog("DEBUG-FARM>SCROLL HERO UP#1",1)
-	    ControlClick,x523 y453, ahk_id %hwnd%,,,,D
+	sleep 550
+	ControlClick,x523 y453, ahk_id %hwnd%,,,,D
     ControlClick,x523 y305, ahk_id %hwnd%,,,,U
     PrintLog("DEBUG-FARM>SCROLL HERO UP#2",1)
     sleep 250
@@ -1572,7 +1579,7 @@ ChangeLeader(IndexHero="1") {
      }
    }
  }
-if (SearchScreen("Img\Leader.png",1,3,"INFO-LEADER> CLICK LEADER","")) {
+if (SearchScreen("Img\Leader.png",1,3,"INFO-LEADER> CLICK LEADER","WARNING-LEADER> NOT FOUND LEADER BUTTON") or SearchScreen("Img\Leader1.png",1,3,"INFO-LEADER> CLICK LEADER","WARNING-LEADER> NOT FOUND LEADER BUTTON")) {
    SearchScreen("Img\LeaderChange.png",1,3,"INFO-LEADER> CLICK CHANGE","")
 }
 ClickBackToHome()
