@@ -1396,7 +1396,7 @@ MonSwitch(x,y,m1,m2) {
   PrintLog("DEBUG-FARM> Click HERO",1)
   sleep 1000
   ControlClick,x%m1% y%m2%
-  if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-FARM> HERO LEVEL 1","DEBUG-FARM> MON NOT LEVEL1") and SearchScreen("Img\FarmJoin.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON"))  {
+  if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-FARM> HERO LEVEL 1","DEBUG-FARM> MON NOT LEVEL1") and (SearchScreen("Img\FarmJoin.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON") or SearchScreen("Img\FarmJoin1.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON")))  {
       SearchScreen("Img\FarmJoin.png",1,1,"INFO-FARM> CLICK JOIN","")
       if (SearchScreen("Img\FarmArrowUp.png",0,3,"INFO-FARM> ARROW UP","") or SearchScreen("Img\FarmArrowUp1.png",0,3,"INFO-FARM> ARROW UP","") ) {
         PrintLog("INFO-FARM>HERO TO CHANGE CLICKED",1)
