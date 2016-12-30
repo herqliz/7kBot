@@ -578,7 +578,7 @@ ClickBackToHome(Timeout="25") {
     SearchScreen("Img\Back.png",1,1,"INFO-CLICK BACK","")
   }
     SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
-    SearchScreen("Img\QuestHero30.png",1,1,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+    SearchScreen("Img\QuestHero30.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
     SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
   if (A_TickCount >= end) {
     ErrorBackToHome++
@@ -903,7 +903,7 @@ StageFight() {
 	   loop {
 	      SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
-          SearchScreen("Img\QuestHero30.png",1,2,"INFO-FARM> Hero Quest Lv.30 ... Click OK","")
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> Hero Quest Lv.30 ... Click OK","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
 	   iniRead, TeamtoFight, %A_WorkingDir%\Config.ini, Stage, TeamtoFight
 	   if (TeamtoFight="A") {
@@ -918,7 +918,7 @@ StageFight() {
        if !(AISwitchHero()) {
         NumErrorFarm++ 
         if (NumErrorFarm>=1) {
-          PrintLog("INFO-FARM> COUNT ERROR = "NumErrorFarm,1)
+          PrintLog("INFO-AWAKE> COUNT ERROR = "NumErrorFarm,1)
         }
        }       
        SearchScreen("Img\AutoRepeatOff.png",1,2,"INFO-STAGE> CLICK AUTO REPEAT OFF","")
@@ -996,9 +996,9 @@ StageFight() {
            } ; 
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
-          SearchScreen("Img\QuestHero30.png",1,2,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
-          SearchScreen("Img\StageLobby.png",1,0,"INFO-FARM> CLICK LOBBY","")
+          SearchScreen("Img\StageLobby.png",1,0,"INFO-AWAKE> CLICK LOBBY","")
           ClickBackToHome()
           return 1
 		 }
@@ -1143,7 +1143,7 @@ TowerFight() {
          Loop {
            ;SearchScreen("Img\AutoSkillOn.png",1,1,"INFO-TOWER> CLICK AUTO SKILL ON ","")
            if (SkillUsed1 = 0) {
-             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-TOWER> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-FARM> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-FARM> ROUND1!!! ","")) {
+             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-TOWER> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-AWAKE> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-AWAKE> ROUND1!!! ","")) {
                SkillTowerRound1()
                SkillUsed1=1
              }
@@ -1256,18 +1256,18 @@ return 0
 
 SortHeroByLevel(){
  ControlClick,x700 y150, ahk_id %hwnd%
- SearchScreen("Img\FarmLevel.png",1,2,"INFO-FARM>CLICK LEVEL","")
- if (SearchScreen("Img\FarmArrowUp.png",1,2,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","") or SearchScreen("Img\FarmArrowUp1.png",1,2,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","")){
-  SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","") 
-  SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","") 
+ SearchScreen("Img\FarmLevel.png",1,2,"INFO-AWAKE>CLICK LEVEL","")
+ if (SearchScreen("Img\FarmArrowUp.png",1,2,"INFO-AWAKE>ARROW-UP ...CLICK 2 Times to Refresh","") or SearchScreen("Img\FarmArrowUp1.png",1,2,"INFO-AWAKE>ARROW-UP ...CLICK 2 Times to Refresh","")){
+  SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-AWAKE>ARROW-DOWN ...CLICK","") 
+  SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-AWAKE>ARROW-DOWN ...CLICK","") 
  }
- SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","")
- SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","")
+ SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-AWAKE>ARROW-DOWN ...CLICK","")
+ SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-AWAKE>ARROW-DOWN ...CLICK","")
 }
 
 isHero30(x,y){
  ControlClick,x%x% y%y%, ahk_id %hwnd%
- if (SearchScreen("Img\FarmHero30.png",0,1,"INFO-FARM> HERO TO CHANGE ... LEVEL 30","")) {
+ if (SearchScreen("Img\FarmHero30.png",0,1,"INFO-AWAKE> HERO TO CHANGE ... LEVEL 30","")) {
   ControlSend,, {ESC}, ahk_id %hwnd%
   return 1
  }
@@ -1298,7 +1298,7 @@ isHero1LV30() {
 	 }
 	 if (NumHeroMatch>=2) {
 	   Hero1Lv30Flag=1
-	   PrintLog("INFO-FARM> HERO1 LEVEL30",1)
+	   PrintLog("INFO-AWAKE> HERO1 LEVEL30",1)
 	   return 1
 	 }
  }
@@ -1324,7 +1324,7 @@ NumHeroMatch:=0
 	 }
 	 if (NumHeroMatch>=2) {
 	   Hero2Lv30Flag=1
-	   PrintLog("INFO-FARM> HERO2 LEVEL30",1)
+	   PrintLog("INFO-AWAKE> HERO2 LEVEL30",1)
 	   return 1
 	 }
  }
@@ -1349,7 +1349,7 @@ isHero3LV30() {
 	 }
 	 if (NumHeroMatch>=2) {
 	   Hero3Lv30Flag=1
-	   PrintLog("INFO-FARM> HERO3 LEVEL30",1)
+	   PrintLog("INFO-AWAKE> HERO3 LEVEL30",1)
 	   return 1
 	 }
   }
@@ -1376,7 +1376,7 @@ isHero4LV30() {
 	 }
 	 if (NumHeroMatch>=2) {
 	   Hero4Lv30Flag=1
-	   PrintLog("INFO-FARM> HERO4 LEVEL30",1)
+	   PrintLog("INFO-AWAKE> HERO4 LEVEL30",1)
 	   return 1
 	 }
   }
@@ -1384,11 +1384,11 @@ isHero4LV30() {
  return 0
 }
 ScrollHero() {
-  if (SearchScreen("Img\HeroPage.png",0,2,"INFO-FARM> CHECK IF CURRENT IS HERO MANAGE PAGE... PASS","")) {
+  if (SearchScreen("Img\HeroPage.png",0,2,"INFO-AWAKE> CHECK IF CURRENT IS HERO MANAGE PAGE... PASS","")) {
     sleep 250
     ControlClick,x527 y453, ahk_id %hwnd%,,,,D
     ControlClick,x527 y305, ahk_id %hwnd%,,,,U
-    PrintLog("INFO-FARM>SCROLL HERO UP",1)
+    PrintLog("INFO-AWAKE>SCROLL HERO UP",1)
     sleep 250
     return 1
   }
@@ -1398,7 +1398,7 @@ ScrollDragon() {
   sleep 250
   ControlClick,x406 y489, ahk_id %hwnd%,,,,D
   ControlClick,x406 y125, ahk_id %hwnd%,,,,U
-  PrintLog("INFO-FARM>SCROLL DRAGON UP",1)
+  PrintLog("INFO-AWAKE>SCROLL DRAGON UP",1)
   sleep 250
 }
 
@@ -1406,18 +1406,18 @@ MonSwitch(x,y,m1,m2) {
   PrintLog("DEBUG-FARM> Click HERO",1)
   sleep 1000
   ControlClick,x%m1% y%m2%
-  if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-FARM> HERO LEVEL 1","DEBUG-FARM> MON NOT LEVEL1") and (SearchScreen("Img\FarmJoin.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON") or SearchScreen("Img\FarmJoin1.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON")))  {
-      SearchScreen("Img\FarmJoin.png",1,1,"INFO-FARM> CLICK JOIN","")
-      if (SearchScreen("Img\FarmArrowUp.png",0,3,"INFO-FARM> ARROW UP","") or SearchScreen("Img\FarmArrowUp1.png",0,3,"INFO-FARM> ARROW UP","") ) {
-        PrintLog("INFO-FARM>HERO TO CHANGE CLICKED",1)
+  if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-AWAKE> HERO LEVEL 1","DEBUG-FARM> MON NOT LEVEL1") and (SearchScreen("Img\FarmJoin.png",0,1,"INFO-AWAKE> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON") or SearchScreen("Img\FarmJoin1.png",0,1,"INFO-AWAKE> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON")))  {
+      SearchScreen("Img\FarmJoin.png",1,1,"INFO-AWAKE> CLICK JOIN","")
+      if (SearchScreen("Img\FarmArrowUp.png",0,3,"INFO-AWAKE> ARROW UP","") or SearchScreen("Img\FarmArrowUp1.png",0,3,"INFO-AWAKE> ARROW UP","") ) {
+        PrintLog("INFO-AWAKE>HERO TO CHANGE CLICKED",1)
         ControlClick,x%x% y%y%, ahk_id %hwnd%
-        if (SearchScreen("Img\FarmFailSameTeam.png",0,3,"INFO-FARM> SAME HERO ... FAIL","")) {
+        if (SearchScreen("Img\FarmFailSameTeam.png",0,3,"INFO-AWAKE> SAME HERO ... FAIL","")) {
           ControlSend,, {ESC}, ahk_id %hwnd%
           return 0
         }
         ControlClick,x%x% y%y%, ahk_id %hwnd%
-        if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-FARM> HERO LEVEL 1","")) {
-          PrintLog("INFO-FARM>HERO CHANGE COMPLETE",1)
+        if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-AWAKE> HERO LEVEL 1","")) {
+          PrintLog("INFO-AWAKE>HERO CHANGE COMPLETE",1)
           ControlSend,, {ESC}, ahk_id %hwnd%
           return 1
         }
@@ -1454,7 +1454,7 @@ ChangeHero(x,y) {
   if (ScrollHero()) {
 
   } else {
-    PrintLog("INFO-FARM> Scroll HERO FAIL back to Home",1)
+    PrintLog("INFO-AWAKE> Scroll HERO FAIL back to Home",1)
     return 0
   }
   sleep 500
@@ -1463,7 +1463,7 @@ return 0
 }
 
 AISwitchHero(){
-  SearchScreen("Img\ClickTeamA.png",1,1,"INFO-FARM> CLICK TEAM A","") ; Again Check if Team A are selected
+  SearchScreen("Img\ClickTeamA.png",1,1,"INFO-AWAKE> CLICK TEAM A","") ; Again Check if Team A are selected
   Hero1Lv30Flag=0  
   Hero2Lv30Flag=0  
   Hero3Lv30Flag=0  
@@ -1472,25 +1472,25 @@ AISwitchHero(){
   isHero2LV30()
   isHero3LV30()
   isHero4LV30()
-  PrintLog("INFO-FARM> CHECKING IF HERO LEVEL 30",1)
+  PrintLog("INFO-AWAKE> CHECKING IF HERO LEVEL 30",1)
   SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
   if (isHero1LV30() or isHero2LV30() or isHero3LV30() or isHero4LV30()) {
-    if (SearchScreen("Img\FarmManage.png",1,2,"INFO-FARM>CLICK MANAGE ","")) {
+    if (SearchScreen("Img\FarmManage.png",1,2,"INFO-AWAKE>CLICK MANAGE ","")) {
       SortHeroByLevel()
       if (Hero1Lv30Flag) {
-        PrintLog("INFO-FARM> TRY CHANGING HERO1",1)
+        PrintLog("INFO-AWAKE> TRY CHANGING HERO1",1)
         ChangeHero(90,214)
       }
       if (Hero2LV30Flag) {
-        PrintLog("INFO-FARM> TRY CHANGING HERO2",1)
+        PrintLog("INFO-AWAKE> TRY CHANGING HERO2",1)
         ChangeHero(90,300)
       }
       if (Hero3LV30Flag) {
-        PrintLog("INFO-FARM> TRY CHANGING HERO3",1)
+        PrintLog("INFO-AWAKE> TRY CHANGING HERO3",1)
         ChangeHero(90,386)
       }
       if (Hero4LV30Flag) {
-        PrintLog("INFO-FARM> TRY CHANGING HERO4",1)
+        PrintLog("INFO-AWAKE> TRY CHANGING HERO4",1)
         ChangeHero(90,483)
       }
     }
@@ -1530,9 +1530,7 @@ ChangeMastery(IndexMastery="1"){
 }
 
 ChangeLeader(IndexHero="1") {
-if (IndexHero=0){
- return 0
-}
+
  if (SearchScreen("Img\Heroes.png",1,2,"INFO-LEADER> CLICK HEROES","WARNING-LEADER> NOT FOUND HEROES`(Heroes.png`)")) {
    if (SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-LEADER>ARROW-DOWN ...CLICK","") or SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-LEADER>ARROW-DOWN ...CLICK","")){
      SearchScreen("Img\FarmArrowUp.png",1,2,"INFO-LEADER>ARROW-UP ...CLICK","") 
@@ -1581,7 +1579,7 @@ if (IndexHero=0){
                 if (IndexHero=8) {
                   ControlClick,x722 y444, ahk_id %hwnd%
                 } else {
-                  PrintLog("ERROR-LEADER> WRONG HERO NUMBER 0-16",1)
+                  PrintLog("ERROR-LEADER> WRONG HERO NUMBER 1-8",1)
                   return 0
                 }
               }
@@ -1791,56 +1789,198 @@ DragonFight(){
 return 0
 }
 
+ForceClickKarinDun(){
+ControlClick,x304 y417, ahk_id %hwnd%
+PrintLog("WARNING-DRAGON> FORCE CLICK ENTER DRAGON",1)
+ForceClickEnterDragon=1
+return 1
+}
+
+ForceClickEvanDun(){
+ControlClick,x274 y325, ahk_id %hwnd%
+PrintLog("WARNING-DRAGON> FORCE CLICK ENTER DRAGON",1)
+ForceClickEnterDragon=1
+return 1
+}
+AwakeFight() {
+  ClickBackToHome()
+  NumCountFarm:=0
+  if ClickHomeAdventure() {
+   if (SearchScreen("Img\AwakeSpecialDun.png",1,5,"INFO-AWAKE> CLICK SpecialDun","WARNING-AWAKE> NOT FOUND AwakeSpecialDun.png")) {
+     end := A_TickCount + 180000
+	 ;SearchScreen(ImgName,ClickButton="1",Timeout="5",Text="",TextError="",X1="0",Y1="0",W="0",H="0",PlusX="0",Deviation="20",PlusY="0")
+  
+	 ForceClickEvanDun()
+     ;if (SearchScreen("Img\AwakeReady.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png") or SearchScreen("Img\AwakeReady1.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady1.png")) {
+       ; Select Team C if other team are selected
+
+
+     loop, {
+	  NumCountFarm++
+	  if (SearchScreen("Img\AwakeReady.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png") or SearchScreen("Img\AwakeReady1.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady1.png")) {
+       ; Select Team C if other team are selected
+       ; SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
+       ; SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
+        if (SearchScreen("Img\AwakeNoKey.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")) {
+		  ClickBackToHome()
+		  return 0
+		}
+       ; SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
+       ; SearchScreen("Img\RemoveFriend.png",1,2,"INFO-AWAKE> CLICK REMOVE FRIEND","")
+       if (SearchScreen("Img\AwakeStart.png",1,5,"INFO-AWAKE> CLICK START","WARNING-FARM> NOT FOUND START BUTTON-StageStart.png") or SearchScreen("Img\AwakeStart1.png",1,5,"INFO-AWAKE> CLICK START","WARNING-FARM> NOT FOUND START BUTTON-StageStart.png")) {
+         endFight := A_TickCount + 180000
+
+        ; Turn on Auto Skill if off
+         ;SearchScreen("Img\AutoSkillOn.png",1,5,"INFO-STAGE> CLICK AUTO SKILL ON ","")
+         start := A_TickCount
+         PrintLog("INFO-STATE> FIGHTING ",1)
+         Loop {       
+           PrintLog(".",0)
+           if (SkillUsed1 = 0) {
+             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-AWAKE> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-AWAKE> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-AWAKE> ROUND1!!! ","")) {
+               SkillFarmRound1()
+               SkillUsed1=1
+               if (AutoSkillFlag=0) {
+                 SearchScreen("Img\AutoSkillOff.png",1,1,"INFO-AWAKE> CLICK AUTO SKILL OFF ","")
+                 AutoSkillFlag=1 
+               }
+             }
+           }
+         if (SearchScreen("Img\StageNoKey.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")) {
+           ClickBackToHome()
+           return 0
+         }
+           if (SkillUsed2 = 0) {
+             if (SearchScreen("Img\FarmRound2.png",0,1,"INFO-AWAKE> ROUND2!!!","") ) {
+               SkillFarmRound2()
+               SkillUsed2=1
+             }
+           }
+
+           if (A_TickCount >= endFight) { 
+             ClickBackToHome()
+             return 0 
+           }
+           if (SearchScreen("Img\StageLobby.png",0,0,"INFO-AWAKE> CLICK LOBBY","")) {
+             NumCountFarm++
+             break
+           }
+           if (SearchScreen("Img\StageNoKey.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")) {
+             return 0
+           }
+         if (SearchScreen("Img\HeroFull.png",1,0,"ERROR-FARM> HERO OR ITEM ARE FULL ... CLICK PROCEED","") or SearchScreen("Img\ItemFull.png",1,0,"ERROR-STAGE> HERO FULL CLICK PROCEED","")) {
+           loop, 30{
+             soundbeep, 750, 500
+             soundbeep, 1100, 500
+           }
+         }		   
+         } 
+         PrintLog("INFO-AWAKE> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
+         PrintLog("INFO-AWAKE> CURRENT HIT ROUND= "NumCountFarm "/" 99,1)
+         SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+         SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
+         SearchScreen("Img\QuestHero30.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
+         SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+           if (CloseDragonPopUP()) {
+             ClickBackToHome()
+             DragonFight()
+             CountBattle++
+           } ; 
+           ;SearchScreen("Img\StageReady.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png")
+         CountBattle++
+         ;return 1
+       }
+         if (NumCountFarm>=99) {
+		     NumCountFarm=0
+          if (CloseDragonPopUP()) {
+             ClickBackToHome()
+             DragonFight()
+             CountBattle++
+           } ; 
+          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+          SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
+          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+          SearchScreen("Img\StageLobby.png",1,0,"INFO-AWAKE> CLICK LOBBY","")
+          ClickBackToHome()
+          return 1
+         } else {
+          if (CloseDragonPopUP()) {
+             ClickBackToHome()
+             DragonFight()
+             CountBattle++
+           } ; 
+          SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
+          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
+          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
+          if (SearchScreen("Img\AwakeRepeat.png",1,0,"INFO-AWAKE> CLICK REPEAT","")) {
+           NumErrorFarm=0
+          }
+         }  
+         if (NumErrorFarm >= 3) {
+           NumErrorFarm=0
+           ClickBackToHome()
+           return 0
+         }
+        } 
+      }
+     }
+ }
+ClickBackToHome()
+return 0
+}
+
 
 FarmFight() {
   ClickBackToHome()
   ;ChangeMastery(FarmMastery)
   if ((FarmLeader != ArenaLeader) or LeaderFirstTime=1) {
     if (LastLeader!=1) {
-      PrintLog("INFO-FARM> CHANGE LEADER TO HERO No. " FarmLeader,1)
+      PrintLog("INFO-AWAKE> CHANGE LEADER TO HERO No. " FarmLeader,1)
       ChangeLeader(FarmLeader)
       LeaderFirstTime=0
       LastLeader=1
     } else {
-      PrintLog("INFO-FARM> LEADER NOT CHANGE ... SAME AS ARENA",1)
+      PrintLog("INFO-AWAKE> LEADER NOT CHANGE ... SAME AS ARENA",1)
     }
   } else {
-      PrintLog("INFO-FARM> LEADER NOT CHANGE ... SAME AS ARENA",1)
+      PrintLog("INFO-AWAKE> LEADER NOT CHANGE ... SAME AS ARENA",1)
   }
   if ClickHomeAdventure() {
-   if (SearchScreen("Img\Adventure.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure1.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-AdventureHotTime.png") or ForceClickAdvanture()) {
+   if (SearchScreen("Img\Adventure.png",1,2,"INFO-AWAKE> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure1.png",1,2,"INFO-AWAKE> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,2,"INFO-AWAKE> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-AdventureHotTime.png") or ForceClickAdvanture()) {
      end := A_TickCount + 180000
 	 ;SearchScreen(ImgName,ClickButton="1",Timeout="5",Text="",TextError="",X1="0",Y1="0",W="0",H="0",PlusX="0",Deviation="20",PlusY="0")
-     While !(SearchScreen(FarmMap,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap1,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap2,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0)) {
-       SearchScreen("Img\Asgar.png",1,0,"INFO-FARM> CLICK ASGAR","")  ; Click ASGAR <<< 
-       SearchScreen("Img\NextMap.png",1,0,"INFO-FARM> CLICK Next Map","")
+     While !(SearchScreen(FarmMap,1,2,"INFO-AWAKE> CLICK MAP","INFO-AWAKE> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap1,1,2,"INFO-AWAKE> CLICK MAP","INFO-AWAKE> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap2,1,2,"INFO-AWAKE> CLICK MAP","INFO-AWAKE> FINDING MAP",0,0,0,0,0,50,0)) {
+       SearchScreen("Img\Asgar.png",1,0,"INFO-AWAKE> CLICK ASGAR","")  ; Click ASGAR <<< 
+       SearchScreen("Img\NextMap.png",1,0,"INFO-AWAKE> CLICK Next Map","")
        if (A_TickCount >= end) {
          ClickBackToHome()
          return 0
        }
      } ; End Search Map
-     if (SearchScreen("Img\StageReady.png",1,5,"INFO-FARM> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png") or SearchScreen("Img\StageReady1.png",1,5,"INFO-FARM> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady1.png")) {
+     if (SearchScreen("Img\StageReady.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png") or SearchScreen("Img\StageReady1.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady1.png")) {
        ; Select Team C if other team are selected
 		if !(SearchScreen("Img\TeamASelected.png",1,3,"INFO-STAGE> CLICK TEAM A","WARNING-STAGE>NOT FOUND TEAM A-TeamCSelected.png ... TRY PIRCURE2") or SearchScreen("Img\ClickTeamA.png",1,3,"INFO-STAGE> CLICK TEAM A","WARNING-STAGE>NOT FOUND TEAM C-ClickTeamC.png ... TRY PIRCURE2") or SearchScreen("Img\TowerTeamA.png",1,3,"INFO-STAGE> CLICK TEAM A","WARNING-STAGE>NOT FOUND TEAM C-TowerTeamC.png ... FORCE CLICK POSITION")) {
 		     sleep 1000
 			 ControlClick,x125 y144, ahk_id %hwnd%
 		}
 			 ControlClick,x125 y144, ahk_id %hwnd%
-       SearchScreen("Img\AutoRepeatOff.png",1,2,"INFO-FARM> CLICK AUTO REPEAT OFF","")
+       SearchScreen("Img\AutoRepeatOff.png",1,2,"INFO-AWAKE> CLICK AUTO REPEAT OFF","")
        NumErrorFarm=0
      loop, {
        SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
        SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
-       SearchScreen("Img\QuestHero30.png",1,1,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+       SearchScreen("Img\QuestHero30.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
        SearchScreen("Img\QuestComplete.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
        if !(AISwitchHero()) {
         NumErrorFarm++ 
         if (NumErrorFarm>=1) {
-          PrintLog("INFO-FARM> COUNT ERROR = "NumErrorFarm,1)
+          PrintLog("INFO-AWAKE> COUNT ERROR = "NumErrorFarm,1)
         }
        }
-       SearchScreen("Img\RemoveFriend.png",1,2,"INFO-FARM> CLICK REMOVE FRIEND","")
-       if (SearchScreen("Img\StageStart.png",1,5,"INFO-FARM> CLICK START","WARNING-FARM> NOT FOUND START BUTTON-StageStart.png")) {
+       SearchScreen("Img\RemoveFriend.png",1,2,"INFO-AWAKE> CLICK REMOVE FRIEND","")
+       if (SearchScreen("Img\StageStart.png",1,5,"INFO-AWAKE> CLICK START","WARNING-FARM> NOT FOUND START BUTTON-StageStart.png")) {
          endFight := A_TickCount + 300000
 
          if (SearchScreen("Img\HeroFull.png",1,0,"ERROR-FARM> HERO OR ITEM ARE FULL ... CLICK PROCEED","") or SearchScreen("Img\ItemFull.png",1,0,"ERROR-FARM> HERO OR ITEM ARE FULL ... CLICK PROCEED","")) {
@@ -1860,41 +2000,41 @@ FarmFight() {
          Loop {       
            PrintLog(".",0)
            if (SkillUsed1 = 0) {
-             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-FARM> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-FARM> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-FARM> ROUND1!!! ","")) {
+             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-AWAKE> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-AWAKE> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-AWAKE> ROUND1!!! ","")) {
                SkillFarmRound1()
                SkillUsed1=1
                if (AutoSkillFlag=0) {
-                 SearchScreen("Img\AutoSkillOff.png",1,1,"INFO-FARM> CLICK AUTO SKILL OFF ","")
+                 SearchScreen("Img\AutoSkillOff.png",1,1,"INFO-AWAKE> CLICK AUTO SKILL OFF ","")
                  AutoSkillFlag=1 
                }
              }
            }
-         if (SearchScreen("Img\StageNoKey.png",1,2,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")) {
+         if (SearchScreen("Img\StageNoKey.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")) {
            ClickBackToHome()
            return 0
          }
            if (SkillUsed2 = 0) {
-             if (SearchScreen("Img\FarmRound2.png",0,1,"INFO-FARM> ROUND2!!!","") ) {
+             if (SearchScreen("Img\FarmRound2.png",0,1,"INFO-AWAKE> ROUND2!!!","") ) {
                SkillFarmRound2()
                SkillUsed2=1
              }
            }
            if (SkillUsed3 = 0) {
-             if (SearchScreen("Img\FarmRound3.png",0,1,"INFO-FARM> ROUND3!!!","") ) {
+             if (SearchScreen("Img\FarmRound3.png",0,1,"INFO-AWAKE> ROUND3!!!","") ) {
                SkillFarmRound3()
                SkillUsed3=1
-               SearchScreen("Img\AutoSkillOn.png",1,1,"INFO-FARM> AUTO SKILL ON ","")
+               SearchScreen("Img\AutoSkillOn.png",1,1,"INFO-AWAKE> AUTO SKILL ON ","")
              }
            }
            if (A_TickCount >= endFight) { 
              ClickBackToHome()
              return 0 
            }
-           if (SearchScreen("Img\StageLobby.png",0,0,"INFO-FARM> CLICK LOBBY","")) {
+           if (SearchScreen("Img\StageLobby.png",0,0,"INFO-AWAKE> CLICK LOBBY","")) {
              NumCountFarm++
              break
            }
-           if (SearchScreen("Img\StageNoKey.png",1,1,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")) {
+           if (SearchScreen("Img\StageNoKey.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")) {
              return 0
            }
          if (SearchScreen("Img\HeroFull.png",1,0,"ERROR-FARM> HERO OR ITEM ARE FULL ... CLICK PROCEED","") or SearchScreen("Img\ItemFull.png",1,0,"ERROR-STAGE> HERO FULL CLICK PROCEED","")) {
@@ -1904,18 +2044,18 @@ FarmFight() {
            }
          }		   
          } 
-         PrintLog("INFO-FARM> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
-         PrintLog("INFO-FARM> CURRENT HIT ROUND= "NumCountFarm "/" MaxNumFarm,1)
+         PrintLog("INFO-AWAKE> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
+         PrintLog("INFO-AWAKE> CURRENT HIT ROUND= "NumCountFarm "/" MaxNumFarm,1)
          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
          SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","") 
-         SearchScreen("Img\QuestHero30.png",1,1,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+         SearchScreen("Img\QuestHero30.png",1,1,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
          SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
            if (CloseDragonPopUP()) {
              ClickBackToHome()
              DragonFight()
              CountBattle++
            } ; 
-           ;SearchScreen("Img\StageReady.png",1,5,"INFO-FARM> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png")
+           ;SearchScreen("Img\StageReady.png",1,5,"INFO-AWAKE> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png")
          CountBattle++
          ;return 1
        }
@@ -1927,9 +2067,9 @@ FarmFight() {
            } ; 
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
-          SearchScreen("Img\QuestHero30.png",1,2,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
-          SearchScreen("Img\StageLobby.png",1,0,"INFO-FARM> CLICK LOBBY","")
+          SearchScreen("Img\StageLobby.png",1,0,"INFO-AWAKE> CLICK LOBBY","")
           ClickBackToHome()
           return 1
          } else {
@@ -1940,9 +2080,9 @@ FarmFight() {
            } ; 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
-          SearchScreen("Img\QuestHero30.png",1,2,"INFO-FARM> NO ENOUGH KEY BACK TO LOBBY","")
+          SearchScreen("Img\QuestHero30.png",1,2,"INFO-AWAKE> NO ENOUGH KEY BACK TO LOBBY","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
-          if (SearchScreen("Img\FarmRepeat.png",1,0,"INFO-FARM> CLICK REPEAT","")) {
+          if (SearchScreen("Img\FarmRepeat.png",1,0,"INFO-AWAKE> CLICK REPEAT","")) {
            NumErrorFarm=0
           }
          }  
@@ -1974,48 +2114,49 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
 
   WinGetPos ,CurrentXpos,CurrentYpos,,,A
   loop, {
-    CloseDragonPopUP()
-    if (A_TickCount >= MainEnd){
-      PrintLog("INFO-COMMON> RUN HOUR REACH ... EXITING APP",1)
-      exitapp
-    }
+    ; CloseDragonPopUP()
+    ; if (A_TickCount >= MainEnd){
+      ; PrintLog("INFO-COMMON> RUN HOUR REACH ... EXITING APP",1)
+      ; exitapp
+    ; }
     OpenGame()
     ;ESCNO()
     ClickBackToHome() ; To ensure we are ready @ Home 
-    if (CountHitDragon >= MaxHitDragon) { ; Number to hit dragon per number to Fight in a State (Default value is 2)
-     if (isFarm=0){
-        if(NumRepeatStart<=NumRepeatStage){
-          StageMap1=%StageMapFirst1%
-          StageMap=%StageMapFirst%
-        } else {
-          StageMap1=%StageMapNext1%
-          StageMap=%StageMapNext%
-          if (NumRepeatStart>=NumRepeatStage*2) {
-            NumRepeatStart=1
-          }
-        }
-      if (StageFight()) {
-        CountHitDragon = 0
-        NumRepeatStart++
-      }
-	  if (NumCountStage>=MaxNumFarm) {
-        NumCountStage=0
-		CountHitDragon = 0
-      }
-     } else {
-      FarmFight()
-      if (NumCountFarm>=MaxNumFarm) {
-        NumCountFarm=0
-        CountHitDragon = 0
-      }
-     }
-    } else {
-      if (DragonFight()) {
-        CountHitDragon++
-      }
-    }
-    TowerFight()
-    ArenaFight()
+	AwakeFight()
+    ; if (CountHitDragon >= MaxHitDragon) { ; Number to hit dragon per number to Fight in a State (Default value is 2)
+     ; if (isFarm=0){
+        ; if(NumRepeatStart<=NumRepeatStage){
+          ; StageMap1=%StageMapFirst1%
+          ; StageMap=%StageMapFirst%
+        ; } else {
+          ; StageMap1=%StageMapNext1%
+          ; StageMap=%StageMapNext%
+          ; if (NumRepeatStart>=NumRepeatStage*2) {
+            ; NumRepeatStart=1
+          ; }
+        ; }
+      ; if (StageFight()) {
+        ; CountHitDragon = 0
+        ; NumRepeatStart++
+      ; }
+	  ; if (NumCountStage>=MaxNumFarm) {
+        ; NumCountStage=0
+		; CountHitDragon = 0
+      ; }
+     ; } else {
+      ; FarmFight()
+      ; if (NumCountFarm>=MaxNumFarm) {
+        ; NumCountFarm=0
+        ; CountHitDragon = 0
+      ; }
+     ; }
+    ; } else {
+      ; if (DragonFight()) {
+        ; CountHitDragon++
+      ; }
+    ; }
+    ; TowerFight()
+    ; ArenaFight()
     Summary()
   }  
 F1::
