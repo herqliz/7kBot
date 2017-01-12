@@ -4,11 +4,100 @@
 #include Libs\Gdip_ImageSearch.ahk
 SetWorkingDir %A_ScriptDir%
 
+;Read Configuration for GUI
+global MaxNumFarm,FarmModeGUI,FarmMode,FarmModeTemp,MaxNumFarmGUI,CheckDragonLv90,isChecked
+IniRead,MaxNumFarmGUI,Config.ini,Stage,MaxNumFarm
+IniRead,FarmMode,Config.ini,Stage,Farm
+IniRead,CheckDragonLv90,Config.ini,Common, CheckLevelDragon
+
+if (CheckDragonLv90=1){
+   isChecked=Checked
+} else {
+   isChecked=
+}
+if (FarmMode=1){
+  FarmModeTemp=1
+  FarmModeGUI=Farm
+} else {
+  FarmModeTemp=2
+  FarmMode=Stage
+}
+
 FileCopy, %A_ScriptDir%\Test.png, %A_ScriptDir%\Img\Test.png, 1
 ;#include FileDelete.ahk
 ;#include FileInstall.ahk
 ;FileCopy, Config.ini, %A_Temp%\7K
 ;SetWorkingDir %A_temp%\7K
+
+global oHtml,log_hwnd,html,UpdateFarmMode
+Gui, Color, 2FA2B0
+Gui, Add, ActiveX, voHtml w550 h150, HtmlFile
+
+Gui, Add, Text, x10 y160 w45 Left ,Mode 
+Gui, Add, DropDownList, Choose%FarmModeTemp% x40 y160 w55 vUpdateFarmMode, Farm|Stage
+Gui, Add, Text, x100 y160 w50 Left,RepeatNumber 
+Gui, Add, Edit, x175 y160 w30  vMaxNumFarmGUI Center, %MaxNumFarmGUI%
+Gui, Add, CheckBox, x250 y160 vCheckDragonLv90 %isChecked%, Dragon Lv90+ Only
+
+
+gui,add,Button, x350 y250 w80 h20 gSaveConfig,Save Config
+
+
+
+Gui,Add, GroupBox, w450 h45 x0 y295 , Control...
+gui,add,Button, x20 y310 w80 h20 gStartBot ,StartBot
+gui,add,Button, x120 y310 w80 h20 gPauseBot ,PauseBot
+gui,add,Button, x220 y310 w80 h20 gResumeBot ,ResumeBot
+gui,add,Button, x320 y310 w80 h20 gExitBot ,ExitBot
+
+
+Gui, Show, , SevenKnight Bot LogViewer
+WinGet, log_hwnd, ID, SevenKnight Bot LogViewer ahk_class AutoHotkeyGUI
+
+SaveConfig()
+{
+gui, submit, nohide
+;guicontrol,,UpdateMaxNumFarm, %UpdateMaxNumFarm%
+
+IniWrite,%MaxNumFarmGUI%,Config.ini,Stage,MaxNumFarm
+IniWrite,%CheckDragonLv90%,Config.ini,Common,CheckLevelDragon
+	if (UpdateFarmMode="Farm"){
+	    UpdateFarmMode=1
+	} else { 
+		UpdateFarmMode=0
+	}
+IniWrite,%UpdateFarmMode%,Config.ini,Stage,Farm	
+return
+}
+
+StartBot()
+{
+Send {F2}
+SendInput, {F2}
+return
+}
+
+PauseBot()
+{
+Send {F1}
+SendInput, {F1}
+return
+}
+
+ResumeBot()
+{
+Send {F3}
+SendInput, {F3}
+return
+}
+
+ExitBot()
+{
+PrintLog("INFO-SYSTEM> EXITING APPLICATION !!!",1)
+sleep 1000
+ExitApp
+return
+}
 
 global hwnd :=0, CountOpenGame:=0, CountArena:=0, CountBattle:=0, CountTower:=0, DragonLevel:=0, CountMyDragon:=0
 global StageLeader:=1, FarmLeader:=1, DragonLeader:=1, ArenaLeader:=1, LeaderFirstTime:=1
@@ -629,13 +718,22 @@ FormatSeconds(NumberOfSeconds)  ; Convert the specified number of seconds to hh:
 
 PrintLog(Text,ShowTime=1) { ; Print Log file to 7kLog.txt file PrintLog(Text Message, Show Time Stamp Flag)
 FormatTime, TimeString, , d MMM-HH:mm:ss
+
   if (ShowTime=1 and Text !="") {
     FileAppend, `n%TimeString% %Text% , %A_WorkingDir%\7kLog.txt
+	setMessage(TimeString " : " Text)
+	oHtml.write(html)
+	ControlSend,, {Pgdn}, ahk_id %log_hwnd%
   } else {
     if (Text != "") {
       FileAppend, %Text% , %A_WorkingDir%\7kLog.txt
+	  setMessage(Text)
+	  oHtml.write(html)
+	  ControlSend,, {Pgdn}, ahk_id %log_hwnd%
     }
   }
+  
+
 } 
 
 GetHwnd() {
@@ -771,12 +869,58 @@ OpenGame(Timeout="180") {
  }
 }
 
-
+;	<a style="color:#000000" bgcolor="#4D9EA8">
+setMessage(MessageInput){
+    If InStr(MessageInput, "INFO") {
+	html =
+	(
+	<html>
+	<body unselectable="on" bgcolor="#B9C3CB">
+	<Font size="2" Color="Green">
+	%MessageInput%
+	</Font>
+	<br>
+	</body>
+	</html>
+	)
+	} else If InStr(MessageInput, "ERROR"){
+	html =
+	(
+	<html>
+	<body unselectable="on" bgcolor="#B9C3CB">
+	<p style="color: #ffffff; background-color: #ff0000">
+	<Font size="2" >
+	%MessageInput%
+	</Font>
+	<br>
+	</p>
+	</body>
+	</html>
+	)	
+	} else If InStr(MessageInput, "WARNING"){
+	html =
+	(
+	<html>
+	<body unselectable="on" bgcolor="#B9C3CB">
+	<p style="color: green; background-color: #ffff42">
+	<Font size="2" >
+	%MessageInput%
+	</Font>
+	<br>
+	</p>
+	</body>
+	</html>
+	)	
+	}
+	
+}
 
 Initialized() {
+
+  
   SetTitleMatchMode 2
   SetControlDelay -1 
-  Run baretail %A_WorkingDir%\7kLog.txt
+  ;Run baretail %A_WorkingDir%\7kLog.txt
   PrintLog("`n############ 7K BOT by HerQliZ ############# ",0)
   PrintLog("`n#### INFO> PRESS F2 To START BOT ",0)
   PrintLog("`n#### INFO> PRESS F1 To Pause BOT ",0)
@@ -957,7 +1101,7 @@ StageFight() {
                SkillUsed1=1
              }
            }
-           PrintLog(".",0)
+           ;PrintLog(".",0)
            if (SearchScreen("Img\StageNoKey.png",1,1,"INFO-STAGE> NO ENOUGH KEY BACK TO LOBBY","")) {
              ClickBackToHome()
              return 0
@@ -1159,7 +1303,7 @@ TowerFight() {
              return 0
            } 
            sleep 100
-           PrintLog(".",0)
+           ;PrintLog(".",0)
            if (A_TickCount >= endFight) { 
              ClickBackToHome()
              return 0 
@@ -1230,7 +1374,7 @@ global FightLeader:=0
                } 
                
                sleep 200
-               PrintLog(".",0)
+               ;PrintLog(".",0)
                if (A_TickCount >= endFight) { 
                  ClickBackToHome()
                  return 0 
@@ -1713,7 +1857,7 @@ DragonFight(){
                ;  TimeMove = TimeMove + A_TickCount
                ;}
 
-               PrintLog(".",0)
+               ;PrintLog(".",0)
                if (A_TickCount >= endFight) { 
                  SkillHitDragonEnd()
                  ClickBackToHome()
@@ -1858,7 +2002,7 @@ FarmFight() {
          start := A_TickCount
          PrintLog("INFO-STATE> FIGHTING ",1)
          Loop {       
-           PrintLog(".",0)
+           ;PrintLog(".",0)
            if (SkillUsed1 = 0) {
              if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-FARM> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-FARM> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-FARM> ROUND1!!! ","")) {
                SkillFarmRound1()
@@ -1960,6 +2104,7 @@ return 0
 }
 
 F2::
+
 global CurrentXpos, CurrentYPos
 global RunHour:=2
 global MaxNumFarm:=5
