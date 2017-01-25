@@ -4,11 +4,29 @@
 #include Libs\Gdip_ImageSearch.ahk
 SetWorkingDir %A_ScriptDir%
 
+global hwnd :=0, CountOpenGame:=0, CountArena:=0, CountBattle:=0, CountTower:=0, DragonLevel:=0, CountMyDragon:=0
+global StageLeader:=1, FarmLeader:=1, DragonLeader:=1, ArenaLeader:=1, LeaderFirstTime:=1
+global StageMastery:=1, FarmMastery:=3, DragonMastery:=2, ArenaMastery:=1
+global MyDragon:=0, DelayClick:=0
+global NotChangeHero1:=0, NotChangeHero2:=0, NotChangeHero3:=0, NotChangeHero4:=0
+
 ;Read Configuration for GUI
-global MaxNumFarm,FarmModeGUI,FarmMode,FarmModeTemp,MaxNumFarmGUI,CheckDragonLv90,isChecked
+global MaxNumFarm,FarmModeGUI,FarmMode,FarmModeTemp,MaxNumFarmGUI,CheckDragonLv90,isChecked,StageTeam,StageTeamChoice,StageTeamSelected
+global FarmMapChoice,StageMapChoice,FarmMap,StageMap,FarmMapChoiceDD,StageMapChoiceDD,FarmMapSelected,StageMapSelected
+FarmMapChoice=1-5|1-10|2-10|3-10|4-5|5-10|
+StageMapChoice=8-5|8-13|8-15|8-17|8-20|9-11|9-13|10-1|
+StageTeamChoice=A|B|C|
+
 IniRead,MaxNumFarmGUI,Config.ini,Stage,MaxNumFarm
 IniRead,FarmMode,Config.ini,Stage,Farm
 IniRead,CheckDragonLv90,Config.ini,Common, CheckLevelDragon
+IniRead,FarmMap,Config.ini,Stage,FarmMap
+IniRead,StageMap,Config.ini,Stage,StageMap
+IniRead,StageTeam,Config.ini,Stage,TeamtoFight
+
+StringReplace,FarmMapChoiceDD,FarmMapChoice,%FarmMap%,%FarmMap%|
+StringReplace,StageMapChoiceDD,StageMapChoice,%StageMap%,%StageMap%|
+StringReplace,StageTeamChoiceDD,StageTeamChoice,%StageTeam%,%StageTeam%|
 
 if (CheckDragonLv90=1){
    isChecked=Checked
@@ -29,7 +47,7 @@ FileCopy, %A_ScriptDir%\Test.png, %A_ScriptDir%\Img\Test.png, 1
 ;FileCopy, Config.ini, %A_Temp%\7K
 ;SetWorkingDir %A_temp%\7K
 
-global oHtml,log_hwnd,html,UpdateFarmMode
+global oHtml,log_hwnd,html,UpdateFarmMode,StartBotA,PauseBotA,ResumeBotA
 Gui, Color, 2FA2B0
 Gui, Add, ActiveX, voHtml w550 h150, HtmlFile
 
@@ -38,21 +56,46 @@ Gui, Add, DropDownList, Choose%FarmModeTemp% x40 y160 w55 vUpdateFarmMode, Farm|
 Gui, Add, Text, x100 y160 w50 Left,RepeatNumber 
 Gui, Add, Edit, x175 y160 w30  vMaxNumFarmGUI Center, %MaxNumFarmGUI%
 Gui, Add, CheckBox, x250 y160 vCheckDragonLv90 %isChecked%, Dragon Lv90+ Only
+; Map Farm
+Gui, Add, Text, x10 y190 w50 Left,Farm Map 
+Gui, Add, DropDownList,  x60 y190 w55 vFarmMapSelected, %FarmMapChoiceDD%
+Gui, Add, Text, x130 y190 w60 Left,Stage Map 
+Gui, Add, DropDownList,  x190 y190 w55 vStageMapSelected, %StageMapChoiceDD%
+Gui, Add, Text, x250 y190 w60 Left,Stage Team 
+Gui, Add, DropDownList,  x310 y190 w32 vStageTeamSelected, %StageTeamChoiceDD%
+
+gui,add,Button, x370 y190 w80 h20 gSaveConfig,Save Config
+
+;Summary Section to Show TotalFight, Total Tower, Total Arena ,Total Dragon
+; Summary Section
+global TotalFarm,TotalDragon,TotalArena,TotalTower
+Gui,Add, GroupBox, x0 y220 w450 h70 , Summary ...
+Gui, Add, Text, x20 y240 w60 Left,Total Farm : 
+Gui, Add, Text, x80 y240 w20 Left vTotalFarm,0
+Gui, Add, Text, x20 y255 w80 Left,Total Dragon : 
+Gui, Add, Text, x90 y255 w20 Left vTotalDragon,0
+Gui, Add, Text, x120 y240 w65 Left,Total Arena : 
+Gui, Add, Text, x185 y240 w20 Left vTotalArena,0
+Gui, Add, Text, x120 y255 w80 Left,Total Tower : 
+Gui, Add, Text, x190 y255 w20 Left vTotalTower,0
+
+Gui, Add, Text, x300 y230 w60 Left,Start Time : 
+FormatTime, StartTimeGUI, , HH:mm:ssss
+Gui, Add, Text, x365 y230 w80 Left ,%StartTimeGUI%
 
 
-gui,add,Button, x350 y250 w80 h20 gSaveConfig,Save Config
-
-
-
-Gui,Add, GroupBox, w450 h45 x0 y295 , Control...
-gui,add,Button, x20 y310 w80 h20 gStartBot ,StartBot
-gui,add,Button, x120 y310 w80 h20 gPauseBot ,PauseBot
-gui,add,Button, x220 y310 w80 h20 gResumeBot ,ResumeBot
-gui,add,Button, x320 y310 w80 h20 gExitBot ,ExitBot
+Gui,Add, GroupBox, x0 y295 w450 h45 , Control ...
+gui,add,Button, x20 y310 w80 h20 gStartBot vStartBotA,StartBot
+gui,add,Button, x120 y310 w80 h20 gPauseBot vPauseBotA,PauseBot
+gui,add,Button, x120 y310 w80 h20 gResumeBot vResumeBotA,ResumeBot
+gui,add,Button, x220 y310 w80 h20 gExitBot ,ExitBot
 
 
 Gui, Show, , SevenKnight Bot LogViewer
+GuiControl, Hide, ResumeBot
+
 WinGet, log_hwnd, ID, SevenKnight Bot LogViewer ahk_class AutoHotkeyGUI
+
 
 SaveConfig()
 {
@@ -60,6 +103,9 @@ gui, submit, nohide
 ;guicontrol,,UpdateMaxNumFarm, %UpdateMaxNumFarm%
 
 IniWrite,%MaxNumFarmGUI%,Config.ini,Stage,MaxNumFarm
+IniWrite,%FarmMapSelected%,Config.ini,Stage,FarmMap
+IniWrite,%StageMapSelected%,Config.ini,Stage,StageMap
+IniWrite,%StageTeamSelected%,Config.ini,Stage,TeamtoFight
 IniWrite,%CheckDragonLv90%,Config.ini,Common,CheckLevelDragon
 	if (UpdateFarmMode="Farm"){
 	    UpdateFarmMode=1
@@ -67,6 +113,7 @@ IniWrite,%CheckDragonLv90%,Config.ini,Common,CheckLevelDragon
 		UpdateFarmMode=0
 	}
 IniWrite,%UpdateFarmMode%,Config.ini,Stage,Farm	
+msgbox Save Completed, Please Close and Reopen Bot
 return
 }
 
@@ -74,6 +121,7 @@ StartBot()
 {
 Send {F2}
 SendInput, {F2}
+GuiControl, Hide, StartBotA
 return
 }
 
@@ -81,6 +129,8 @@ PauseBot()
 {
 Send {F1}
 SendInput, {F1}
+GuiControl, Hide, PauseBot
+GuiControl, Show, ResumeBot
 return
 }
 
@@ -88,6 +138,8 @@ ResumeBot()
 {
 Send {F3}
 SendInput, {F3}
+GuiControl, Show, PauseBot
+GuiControl, Hide, ResumeBot
 return
 }
 
@@ -99,11 +151,7 @@ ExitApp
 return
 }
 
-global hwnd :=0, CountOpenGame:=0, CountArena:=0, CountBattle:=0, CountTower:=0, DragonLevel:=0, CountMyDragon:=0
-global StageLeader:=1, FarmLeader:=1, DragonLeader:=1, ArenaLeader:=1, LeaderFirstTime:=1
-global StageMastery:=1, FarmMastery:=3, DragonMastery:=2, ArenaMastery:=1
-global MyDragon:=0, DelayClick:=0
-global NotChangeHero1:=0, NotChangeHero2:=0, NotChangeHero3:=0, NotChangeHero4:=0
+
 
 iniRead, DelayClick, %A_WorkingDir%\Config.ini, Common, DelayClick
 iniRead, StageLeader, %A_WorkingDir%\Config.ini, Stage, StageLeader
@@ -871,6 +919,7 @@ OpenGame(Timeout="180") {
 
 ;	<a style="color:#000000" bgcolor="#4D9EA8">
 setMessage(MessageInput){
+
     If InStr(MessageInput, "INFO") {
 	html =
 	(
@@ -921,15 +970,16 @@ Initialized() {
   SetTitleMatchMode 2
   SetControlDelay -1 
   ;Run baretail %A_WorkingDir%\7kLog.txt
-  PrintLog("`n############ 7K BOT by HerQliZ ############# ",0)
-  PrintLog("`n#### INFO> PRESS F2 To START BOT ",0)
-  PrintLog("`n#### INFO> PRESS F1 To Pause BOT ",0)
-  PrintLog("`n#### INFO> PRESS F3 To Resume BOT ",0)
-  PrintLog("`n#### INFO> PRESS F9 To HIDDEN BOT SCREEN ",0)
-  PrintLog("`n#### INFO> PRESS F10 To UNHIDDEN BOT SCREEN",0)
-  PrintLog("`n#### INFO> PRESS F12 To EXIT BOT ",0)
-  iniRead, FarmMapTemp, %A_WorkingDir%\Config.ini, Stage, FarmMap
-  iniRead, StageMapTemp, %A_WorkingDir%\Config.ini, Stage, StageMap
+  PrintLog("`n############ 7K BOT by HerQliZ ############# ",1)
+  PrintLog("`n#### INFO> PRESS F2 To START BOT ",1)
+  PrintLog("`n#### INFO> PRESS F1 To Pause BOT ",1)
+  PrintLog("`n#### INFO> PRESS F3 To Resume BOT ",1)
+  PrintLog("`n#### INFO> PRESS F9 To HIDDEN BOT SCREEN ",1)
+  PrintLog("`n#### INFO> PRESS F10 To UNHIDDEN BOT SCREEN",1)
+  PrintLog("`n#### INFO> PRESS F12 To EXIT BOT ",1)
+  global FarmMapTemp,StageMapTemp
+  iniRead, FarmMapTemp, Config.ini, Stage, FarmMap
+  iniRead, StageMapTemp, Config.ini, Stage, StageMap
   PrintLog("`n#### INFO> 1. HIT MAP ",0)
   if (isFarm=1) {
     ;NotChangeHero1=0
@@ -997,6 +1047,10 @@ Summary() {
   PrintLog("`n>>>>> TOTAL ERROR     :  "  CountError,0)
   PrintLog("`n>>>>> GOLD GAIN(~)    :  "  CountBattle*3000+CountTower*5600,0)
   PrintLog("`n############ END SUMMARY ###############`n",0)
+  GuiControl,,TotalFarm,%CountBattle%
+  GuiControl,,TotalDragon,%CountDragon%
+  GuiControl,,TotalArena,%CountArena%
+  GuiControl,,TotalTower,%CountTower%
   sleep 4000
 }
 
@@ -1131,12 +1185,14 @@ StageFight() {
          PrintLog("INFO-STAGE> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
 		 PrintLog("INFO-STAGE> CURRENT HIT ROUND= "NumCountStage "/" MaxNumFarm,1)
          CountBattle++
+		  GuiControl,,TotalFarm,%CountBattle%
          ;return 0
 		 if (NumCountStage>=MaxNumFarm){
 		   if (CloseDragonPopUP()) {
              ClickBackToHome()
              DragonFight()
              CountBattle++
+			  GuiControl,,TotalFarm,%CountBattle%
            } ; 
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
@@ -1314,6 +1370,7 @@ TowerFight() {
          } 
          PrintLog("INFO-TOWER> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
          CountTower++
+		  GuiControl,,TotalTower,%CountTower%
          return 1
        }
      }
@@ -1385,6 +1442,7 @@ global FightLeader:=0
              } 
              PrintLog("INFO-ARENA> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
              CountArena++
+			  GuiControl,,TotalArena,%CountArena%
              return 1           
            }
      
@@ -1909,6 +1967,7 @@ DragonFight(){
              } 
              PrintLog("INFO-DRAGON> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
              CountDragon++
+			   GuiControl,,TotalDragon,%CountDragon%
              SkillHitDragonEnd()
              return 1           
            }
@@ -2058,9 +2117,11 @@ FarmFight() {
              ClickBackToHome()
              DragonFight()
              CountBattle++
+			  GuiControl,,TotalFarm,%CountBattle%
            } ; 
            ;SearchScreen("Img\StageReady.png",1,5,"INFO-FARM> CLICK READY","WARNING-FARM> NOT FOUND READY BUTTON-StageReady.png")
          CountBattle++
+		  GuiControl,,TotalFarm,%CountBattle%
          ;return 1
        }
          if (NumCountFarm>=MaxNumFarm) {
@@ -2068,6 +2129,7 @@ FarmFight() {
              ClickBackToHome()
              DragonFight()
              CountBattle++
+			  GuiControl,,TotalFarm,%CountBattle%
            } ; 
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
@@ -2081,6 +2143,7 @@ FarmFight() {
              ClickBackToHome()
              DragonFight()
              CountBattle++
+			  GuiControl,,TotalFarm,%CountBattle%
            } ; 
           SearchScreen("Img\LevelUp.png",1,1,"INFO-CLICK QUEST COMPLETE","")
           SearchScreen("Img\QuestComplete.png",1,2,"INFO-CLICK QUEST COMPLETE","") 
@@ -2104,7 +2167,7 @@ return 0
 }
 
 F2::
-
+GuiControl, Hide, StartBotA
 global CurrentXpos, CurrentYPos
 global RunHour:=2
 global MaxNumFarm:=5
