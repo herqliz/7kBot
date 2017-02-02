@@ -14,7 +14,7 @@ global NotChangeHero1:=0, NotChangeHero2:=0, NotChangeHero3:=0, NotChangeHero4:=
 global MaxNumFarm,FarmModeGUI,FarmMode,FarmModeTemp,MaxNumFarmGUI,CheckDragonLv90,isChecked,StageTeam,StageTeamChoice,StageTeamSelected
 global FarmMapChoice,StageMapChoice,FarmMap,StageMap,FarmMapChoiceDD,StageMapChoiceDD,FarmMapSelected,StageMapSelected
 FarmMapChoice=1-5|1-10|2-10|3-10|4-5|5-10|
-StageMapChoice=8-5|8-13|8-15|8-17|8-20|9-11|9-13|10-1|
+StageMapChoice=8-5|8-13|8-15|8-17|8-20|9-11|9-13|10-1|11-2|
 StageTeamChoice=A|B|C|
 
 IniRead,MaxNumFarmGUI,Config.ini,Stage,MaxNumFarm
@@ -2228,12 +2228,18 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
   }  
 F1::
 PrintLog("INFO-SYSTEM> PRESS F1-PAUSE TO RESUME PRESS F3!!!",1)
+GuiControl, Hide, PauseBot
+GuiControl, Show, ResumeBot
 pause, on
+
 return
 
 F3::
 PrintLog("INFO-SYSTEM> PRESS F3-RESUME TO PAUSE PRESS F1!!!",1)
+GuiControl, Show, PauseBot
+GuiControl, Hide, ResumeBot
 pause, off
+
 return
 
 F12::
