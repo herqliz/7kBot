@@ -265,6 +265,8 @@ IniRead, FarmSkillRound1, %A_WorkingDir%\Config.ini, Stage, FarmSkillRound1
       Skill9() 
     if (A_LoopField = 10)
       Skill10() 
+	if (A_LoopField = 15)
+      Skill15() 
   }
 }
 SkillFarmRound2() {
@@ -290,7 +292,9 @@ IniRead, FarmSkillRound2, %A_WorkingDir%\Config.ini, Stage, FarmSkillRound2
     if (A_LoopField = 9)
       Skill9() 
     if (A_LoopField = 10)
-      Skill10() 
+      Skill10()
+	if (A_LoopField = 15)
+      Skill15() 	  
   }
 }
 
@@ -318,6 +322,8 @@ IniRead, FarmSkillRound3, %A_WorkingDir%\Config.ini, Stage, FarmSkillRound3
       Skill9() 
     if (A_LoopField = 10)
       Skill10() 
+	if (A_LoopField = 15)
+      Skill15() 
   }
 }
 
@@ -604,6 +610,13 @@ return
 Skill10() {
 ControlClick,x764 y570, ahk_id %hwnd% 
 PrintLog("USE SKILL10 ",0)
+sleep 250
+return
+}
+
+Skill15() {
+ControlClick,x764 y435, ahk_id %hwnd% 
+PrintLog("USE SKILL15 ",0)
 sleep 250
 return
 }
@@ -1459,12 +1472,15 @@ return 0
 SortHeroByLevel(){
  ControlClick,x700 y150, ahk_id %hwnd%
  SearchScreen("Img\FarmLevel.png",1,2,"INFO-FARM>CLICK LEVEL","")
- if (SearchScreen("Img\FarmArrowUp.png",1,2,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","") or SearchScreen("Img\FarmArrowUp1.png",1,2,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","")){
-  SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","") 
-  SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","") 
+ if (SearchScreen("Img\FarmArrowUp.png",1,4,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","") or SearchScreen("Img\FarmArrowUp1.png",1,4,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","")){
+  SearchScreen("Img\FarmArrowDown.png",1,4,"INFO-FARM>ARROW-DOWN ...CLICK","") 
+  sleep 300
+  SearchScreen("Img\FarmArrowDown1.png",1,4,"INFO-FARM>ARROW-DOWN ...CLICK","") 
+  
  }
- SearchScreen("Img\FarmArrowDown.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","")
- SearchScreen("Img\FarmArrowDown1.png",1,2,"INFO-FARM>ARROW-DOWN ...CLICK","")
+ SearchScreen("Img\FarmArrowDown.png",1,4,"INFO-FARM>ARROW-DOWN ...CLICK","")
+  sleep 300
+ SearchScreen("Img\FarmArrowDown1.png",1,4,"INFO-FARM>ARROW-DOWN ...CLICK","")
 }
 
 isHero30(x,y){
@@ -1610,7 +1626,7 @@ MonSwitch(x,y,m1,m2) {
   ControlClick,x%m1% y%m2%
   if (SearchScreen("Img\FarmHero1.png",0,1,"INFO-FARM> HERO LEVEL 1","DEBUG-FARM> MON NOT LEVEL1") and (SearchScreen("Img\FarmJoin.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON") or SearchScreen("Img\FarmJoin1.png",0,1,"INFO-FARM> CAN SELECT","DEBUG-FARM> NO JOIN BUTTON")))  {
       SearchScreen("Img\FarmJoin.png",1,1,"INFO-FARM> CLICK JOIN","")
-      if (SearchScreen("Img\FarmArrowUp.png",0,3,"INFO-FARM> ARROW UP","") or SearchScreen("Img\FarmArrowUp1.png",0,3,"INFO-FARM> ARROW UP","") ) {
+      if (SearchScreen("Img\FarmArrowUp.png",0,4,"INFO-FARM> ARROW UP","") or SearchScreen("Img\FarmArrowUp1.png",0,4,"INFO-FARM> ARROW UP","") ) {
         PrintLog("INFO-FARM>HERO TO CHANGE CLICKED",1)
         ControlClick,x%x% y%y%, ahk_id %hwnd%
         if (SearchScreen("Img\FarmFailSameTeam.png",0,3,"INFO-FARM> SAME HERO ... FAIL","")) {
