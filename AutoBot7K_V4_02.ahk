@@ -760,6 +760,9 @@ ClickBackToHome(Timeout="25") {
     if (SearchScreen("Img\Home-Battle.png",0,0,"INFO-FOUND BATTLE","INFO-BACKING TO HOME")) {
     break
   }
+      if (SearchScreen("Img\Home-Battle1.png",0,0,"INFO-FOUND BATTLE","INFO-BACKING TO HOME")) {
+    break
+  }
       if (SearchScreen("Img\Home-Adventure3.png",0,0,"INFO-FOUND ADVENTURE3","INFO-BACKING TO HOME")) {
     break
   }
@@ -900,7 +903,7 @@ return 0
 }
 
 ClickHomeBattle(){
- if(SearchScreen("Img\Home-Battle.png",1,2,"INFO-CLICK HOME BATTLE","") ) {
+ if(SearchScreen("Img\Home-Battle.png",1,2,"INFO-CLICK HOME BATTLE","") or SearchScreen("Img\Home-Battle1.png",1,2,"INFO-CLICK HOME BATTLE","") ) {
    return 1
  }
 return 0
@@ -1084,7 +1087,8 @@ StageFight() {
       PrintLog("INFO-STAGE> LEADER NOT CHANGE",1)
   }
   if ClickHomeAdventure() {
-   if (SearchScreen("Img\Adventure1.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-AdventureHotTime.png") or SearchScreen("Img\AdventureHotTime1.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-AdventureHotTime.png")) {
+   sleep 200
+   if (ForceClickAdvanture() or SearchScreen("Img\Adventure1.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-AdventureHotTime.png") or SearchScreen("Img\AdventureHotTime1.png",1,5,"INFO-STAGE> CLICK ADVENTURE","WARNING-STAGE> NO ADVENTURE BUTTON-AdventureHotTime.png")) {
      end := A_TickCount + 300000 ; timeout is 90 second to find map
      ;While !(SearchScreen("Img\Map815.png",1,5,"INFO-STAGE> CLICK MAP","INFO-STAGE> FINDING MAP")) {
      ChangeEasyMap:=0
@@ -1292,7 +1296,9 @@ return 0
 }
 
 ForceClickDragon(){
-ControlClick,x744 y220, ahk_id %hwnd%
+ControlClick,x528 y202, ahk_id %hwnd%
+sleep 300
+ControlClick,x528 y202, ahk_id %hwnd%
 PrintLog("WARNING-DRAGON> FORCE CLICK ENTER DRAGON",1)
 ForceClickEnterDragon=1
 return 1
@@ -1306,13 +1312,17 @@ return 1
 
 
 ForceClickAdvanture(){
-ControlClick,x168 y213, ahk_id %hwnd%
+ControlClick,x706 y562, ahk_id %hwnd%
+sleep 100
+ControlClick,x706 y562, ahk_id %hwnd%
 PrintLog("ERROR-FARM> FORCE CLICK ADVENTURE!!! Please CHECK ADVENTURE PICTURE",1)
 return 1
 }
 
 ForceClickTower(){
-ControlClick,x588 y207, ahk_id %hwnd%
+ControlClick,x748 y187, ahk_id %hwnd%
+sleep 300
+ControlClick,x748 y187, ahk_id %hwnd%
 PrintLog("WARNING-TOWER> FORCE CLICK ENTER TOWER",1)
 return 1
 }
@@ -1326,7 +1336,9 @@ return 1
 
 
 ForceClickArena(){
-ControlClick,x157 y244, ahk_id %hwnd%
+ControlClick,x572 y380, ahk_id %hwnd%
+sleep 300
+ControlClick,x572 y380, ahk_id %hwnd%
 PrintLog("WARNING-TOWER> FORCE CLICK Arena",1)
 return 1
 }
@@ -1335,67 +1347,66 @@ return 1
 TowerFight() {
   ClickBackToHome()
   if ClickHomeAdventure() {
-   if (SearchScreen("Img\Tower.png",1,5,"INFO-TOWER> CLICK TOWER","WARNING-TOWER> NO TOWER BUTTON-Tower.png",0,0,0,0,0,50,0) or SearchScreen("Img\Tower1.png",1,5,"INFO-TOWER> CLICK TOWER1","WARNING-TOWER> NO TOWER BUTTON-Tower1.png",0,0,0,0,0,50,0) or ForceClickTower()) {
-     if (SearchScreen("Img\TowerGoldChamber.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber.png") or SearchScreen("Img\TowerGoldChamber1.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber1.png") ) {
-       ;if !(SearchScreen("Img\TeamCSelected.png",1,3,"INFO-STAGE> CLICK TEAM C","WARNING-STAGE>NOT FOUND TEAM C-ClickTeamC.png ... TRY PIRCURE2") or SearchScreen("Img\ClickTeamC.png",1,3,"INFO-STAGE> CLICK TEAM C","WARNING-STAGE>NOT FOUND TEAM C-ClickTeamC.png ... TRY PIRCURE2") or SearchScreen("Img\TowerTeamC.png",1,3,"INFO-STAGE> CLICK TEAM C","WARNING-STAGE>NOT FOUND TEAM C-TowerTeamC.png ... FORCE CLICK POSITION")) {
-       ;  ControlClick,x298 y144, ahk_id %hwnd%
-       ;}
-       SearchScreen("Img\RemoveFriend.png",1,2,"INFO-TOWER> CLICK REMOVE FRIEND","")
-       if (SearchScreen("Img\TowerStart.png",1,5,"INFO-TOWER> CLICK START","WARNING-TOWER> NOT FOUND START BUTTON-TowerStart.png") or SearchScreen("Img\TowerStart1.png",1,4,"INFO-TOWER> CLICK START","WARNING-TOWER> NOT FOUND START BUTTON1-TowerStart1.png")) {
-         endFight := A_TickCount + 180000
-         if (SearchScreen("Img\TowerNoKey.png",1,2,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","")) {
-           ClickBackToHome()
-           return 0
-         }
-         ; Turn on Auto Skill if off
-         SearchScreen("Img\AutoSkillOn.png",1,5,"INFO-TOWER> CLICK AUTO SKILL ON ","")
-         start := A_TickCount
-         PrintLog("INFO-TOWER> FIGHTING ",1)
-         SkillUsed1:=0
-         SkillUsed2:=0
-         Loop {
-           ;SearchScreen("Img\AutoSkillOn.png",1,1,"INFO-TOWER> CLICK AUTO SKILL ON ","")
-           if (SkillUsed1 = 0) {
-             if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-TOWER> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-FARM> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-FARM> ROUND1!!! ","")) {
-               SkillTowerRound1()
-               SkillUsed1=1
-             }
-           }
-           if (SkillUsed2 = 0) {
-             if (SearchScreen("Img\FarmRound2.png",0,1,"INFO-TOWER> ROUND2!!!","") ) {
-               SkillTowerRound2()
-               SkillUsed2=1
-             }
-           }
-           if (SearchScreen("Img\TowerNoKey.png",1,1,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","") or SearchScreen("Img\TowerNoKey1.png",1,1,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","")) {
-             ClickBackToHome()
-             return 0
-           } 
-           sleep 100
-           ;PrintLog(".",0)
-           if (A_TickCount >= endFight) { 
-             ClickBackToHome()
-             return 0 
-           }
-           if (SearchScreen("Img\TowerLobby.png",1,2,"INFO-TOWER> CLICK LOBBY","")) {
-             break
-           }
-         } 
-         PrintLog("INFO-TOWER> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
-         CountTower++
-		  GuiControl,,TotalTower,%CountTower%
-         return 1
-       }
-     }
+   if (ForceClickTower() or SearchScreen("Img\Tower.png",1,5,"INFO-TOWER> CLICK TOWER","WARNING-TOWER> NO TOWER BUTTON-Tower.png",0,0,0,0,0,50,0) or SearchScreen("Img\Tower1.png",1,5,"INFO-TOWER> CLICK TOWER1","WARNING-TOWER> NO TOWER BUTTON-Tower1.png",0,0,0,0,0,50,0) ) {
+     SearchScreen("Img\TowerCollect.png",1,2,"INFO-TOWER> CLICK COLLECT","WARNING-TOWER> NO COLLECT BUTTON")
+	 SearchScreen("Img\TowerNoCap.png",1,2,"INFO-TOWER> CLICK No Cap","WARNING-TOWER> NO cap not found")
+     ; if (SearchScreen("Img\TowerGoldChamber.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber.png") or SearchScreen("Img\TowerGoldChamber1.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber1.png") ) {
+
+       ; SearchScreen("Img\RemoveFriend.png",1,2,"INFO-TOWER> CLICK REMOVE FRIEND","")
+       ; if (SearchScreen("Img\TowerStart.png",1,5,"INFO-TOWER> CLICK START","WARNING-TOWER> NOT FOUND START BUTTON-TowerStart.png") or SearchScreen("Img\TowerStart1.png",1,4,"INFO-TOWER> CLICK START","WARNING-TOWER> NOT FOUND START BUTTON1-TowerStart1.png")) {
+         ; endFight := A_TickCount + 180000
+         ; if (SearchScreen("Img\TowerNoKey.png",1,2,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","")) {
+           ; ClickBackToHome()
+           ; return 0
+         ; }
+         ; SearchScreen("Img\AutoSkillOn.png",1,5,"INFO-TOWER> CLICK AUTO SKILL ON ","")
+         ; start := A_TickCount
+         ; PrintLog("INFO-TOWER> FIGHTING ",1)
+         ; SkillUsed1:=0
+         ; SkillUsed2:=0
+         ; Loop {
+           ; if (SkillUsed1 = 0) {
+             ; if (SearchScreen("Img\FarmRound1.png",0,2,"INFO-TOWER> ROUND1!!!","") or SearchScreen("Img\AutoSkillOn.png",0,2,"INFO-FARM> ROUND1!!! ","") or SearchScreen("Img\AutoSkillOff.png",0,2,"INFO-FARM> ROUND1!!! ","")) {
+               ; SkillTowerRound1()
+               ; SkillUsed1=1
+             ; }
+           ; }
+           ; if (SkillUsed2 = 0) {
+             ; if (SearchScreen("Img\FarmRound2.png",0,1,"INFO-TOWER> ROUND2!!!","") ) {
+               ; SkillTowerRound2()
+               ; SkillUsed2=1
+             ; }
+           ; }
+           ; if (SearchScreen("Img\TowerNoKey.png",1,1,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","") or SearchScreen("Img\TowerNoKey1.png",1,1,"INFO-TOWER> NO ENOUGH KEY BACK TO LOBBY","")) {
+             ; ClickBackToHome()
+             ; return 0
+           ; } 
+           ; sleep 100
+           ; ;PrintLog(".",0)
+           ; if (A_TickCount >= endFight) { 
+             ; ClickBackToHome()
+             ; return 0 
+           ; }
+           ; if (SearchScreen("Img\TowerLobby.png",1,2,"INFO-TOWER> CLICK LOBBY","")) {
+             ; break
+           ; }
+         ; } 
+         ; PrintLog("INFO-TOWER> TOTAL FIGHT TIME= " (A_TickCount-start)/1000 " SECONDS",1)
+         ; CountTower++
+		  ; GuiControl,,TotalTower,%CountTower%
+         ; return 1
+       ; }
+     ; }
    }
   }
-;ESCNO()
+
  ClickBackToHome()
 return 0
 }
 
 ArenaFight(){
 global FightLeader:=0
+  PrintLog("INFO-ARENA > WE ARE NOW GOTING TO ARENA",1)
   ClickBackToHome()
   ;ChangeMastery(ArenaMastery)
   if (isFarm=0){
@@ -1415,8 +1426,9 @@ global FightLeader:=0
   } else {
       PrintLog("INFO-ARENA> LEADER NOT CHANGE ... SAME AS FARM/DRAGON/STAGE",1)
   }
-  if ClickHomeBattle() {
-   if (SearchScreen("Img\Arena.png",1,4,"INFO-ARENA> CLICK ARENA","WARNING-ARENA> NO ARENA BUTTON-Arena.png") or SearchScreen("Img\Arena1.png",1,3,"INFO-ARENA> CLICK ARENA","WARNING-ARENA> NO ARENA BUTTON-Arena1.png") or ForceClickArena()) {
+   ClickHomeBattle() 
+   PrintLog("INFO-ARENA> HOME BATTLE LOOP DBG------",1)
+   if (ForceClickArena() or SearchScreen("Img\Arena.png",1,4,"INFO-ARENA> CLICK ARENA","WARNING-ARENA> NO ARENA BUTTON-Arena.png") or SearchScreen("Img\Arena1.png",1,3,"INFO-ARENA> CLICK ARENA","WARNING-ARENA> NO ARENA BUTTON-Arena1.png") ) {
       SearchScreen("Img\ArenaNotice.png",1,1,"WARNING-ARENA> ARENA NOTICE SEASON END","")
       SearchScreen("Img\ArenaNoticeOK.png",1,1,"WARNING-ARENA> ARENA NOTICE ... OK","")
       SearchScreen("Img\ArenaNotice2x.png",1,1,"WARNING-ARENA> ARENA NOTICE 2X Point ... OK","")
@@ -1463,7 +1475,7 @@ global FightLeader:=0
        ClickBackToHome()
        return 1
      }
-  }
+ 
  ClickBackToHome()
 return 0
 }
@@ -1496,22 +1508,22 @@ isHero1LV30() {
  NumHeroMatch:=0
  ;iniRead, NotChangeHero1, %A_WorkingDir%\Config.ini, Stage, NotChangeHero1
  if (NotChangeHero1=0) {
-	 if (PixelColor(153,251,hwnd)="0xF7C41F") {
+	 if (PixelColor(153,251,hwnd)="0xF7C41F") or (PixelColor(152,245,hwnd)="0xF7C41F") {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(154,255,hwnd)="0xF79A07") {
+	 if (PixelColor(154,255,hwnd)="0xF79A07") or (PixelColor(154,249,hwnd)="0xF79A07") {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(152,260,hwnd)="0xE98003") {
+	 if (PixelColor(152,260,hwnd)="0xE98003") or (PixelColor(152,254,hwnd)="0xE98003") {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(160,255,hwnd)="0xF98003" ) {
+	 if (PixelColor(160,255,hwnd)="0xF98003" ) or (PixelColor(152,254,hwnd)="0xE98003") {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(164,256,hwnd)="0xEE8A07" ) {
+	 if (PixelColor(164,256,hwnd)="0xEE8A07" ) or (PixelColor(160,248,hwnd)="0xF79805"){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(151,259,hwnd)="0xFE9107" ) {
+	 if (PixelColor(151,259,hwnd)="0xFE9107" ) or (PixelColor(165,248,hwnd)="0xD77501") {
 	  NumHeroMatch++
 	 }
 	 if (NumHeroMatch>=2) {
@@ -1528,16 +1540,16 @@ isHero2LV30() {
 NumHeroMatch:=0
 
  if (NotChangeHero2=0) {
-	 if (PixelColor(153,342,hwnd)="0xD5960C" ) {
+	 if (PixelColor(153,342,hwnd)="0xD5960C" ) or (PixelColor(153,336,hwnd)="0xD5960C" ) {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(154,345,hwnd)="0xF3AC10") {
+	 if (PixelColor(154,345,hwnd)="0xF3AC10") or (PixelColor(154,340,hwnd)="0xEE8C04" ){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(153,351,hwnd)="0xDC8103") {
+	 if (PixelColor(153,351,hwnd)="0xDC8103") or (PixelColor(151,344,hwnd)="0xF98C05" ){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(160,346,hwnd)="0xF28B04" ) {
+	 if (PixelColor(160,346,hwnd)="0xF28B04" ) or (PixelColor(160,341,hwnd)="0xE97D01" ) {
 	  NumHeroMatch++
 	 }
 	 if (NumHeroMatch>=2) {
@@ -1553,16 +1565,16 @@ NumHeroMatch:=0
 isHero3LV30() {
  NumHeroMatch:=0
   if (NotChangeHero3=0) {
-	 if (PixelColor(152,432,hwnd)="0xE7A914") {
+	 if (PixelColor(152,432,hwnd)="0xE7A914") or (PixelColor(153,426,hwnd)="0xD5960C" ){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(154,436,hwnd)="0xEE8E04") {
+	 if (PixelColor(154,436,hwnd)="0xEE8E04") or (PixelColor(154,430,hwnd)="0xEE8C04" ){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(152,440,hwnd)="0xDD7E05") {
+	 if (PixelColor(152,440,hwnd)="0xDD7E05") or (PixelColor(151,434,hwnd)="0xF98C05" ){
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(160,437,hwnd)="0xE87D01" ) {
+	 if (PixelColor(160,437,hwnd)="0xE87D01" ) or (PixelColor(160,431,hwnd)="0xE87D01" ){
 	  NumHeroMatch++
 	 }
 	 if (NumHeroMatch>=2) {
@@ -1577,19 +1589,19 @@ isHero3LV30() {
 isHero4LV30() {
  NumHeroMatch:=0
   if (NotChangeHero4=0) {
-	 if (PixelColor(151,524,hwnd)="0xF2B613") {
+	 if (PixelColor(151,524,hwnd)="0xF2B613") or (PixelColor(151,518,hwnd)="0xF2B613" ) {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(154,528,hwnd)="0xD87200") {
+	 if (PixelColor(154,528,hwnd)="0xD87200") or (PixelColor(154,520,hwnd)="0xC99411" ) {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(151,532,hwnd)="0xEA7E01") {
+	 if (PixelColor(151,532,hwnd)="0xEA7E01") or (PixelColor(151,525,hwnd)="0xF69208" ) {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(160,528,hwnd)="0xEC8203" ) {
+	 if (PixelColor(160,528,hwnd)="0xEC8203" ) or (PixelColor(160,520,hwnd)="0xF79906" ) {
 	  NumHeroMatch++
 	 }
-	 if (PixelColor(164,528,hwnd)="0xEC8709" ) {
+	 if (PixelColor(164,528,hwnd)="0xEC8709" ) or (PixelColor(164,522,hwnd)="0xED8907" )  {
 	  NumHeroMatch++
 	 }
 	 if (NumHeroMatch>=2) {
@@ -1650,7 +1662,7 @@ return 0
 
 ChangeHero(x,y) {
  printLog("DEBUG-FARM> CHANGE HERO LOOP",1)
- loop,10 { ; How many loop to scroll hero 
+ loop,15 { ; How many loop to scroll hero 
   loop,2 {
     if(MonSwitch(x,y,324,250)) {
      return 1
@@ -1697,19 +1709,19 @@ AISwitchHero(){
       SortHeroByLevel()
       if (Hero1Lv30Flag) {
         PrintLog("INFO-FARM> TRY CHANGING HERO1",1)
-        ChangeHero(90,214)
+        ChangeHero(40,214)
       }
       if (Hero2LV30Flag) {
         PrintLog("INFO-FARM> TRY CHANGING HERO2",1)
-        ChangeHero(90,300)
+        ChangeHero(40,300)
       }
       if (Hero3LV30Flag) {
         PrintLog("INFO-FARM> TRY CHANGING HERO3",1)
-        ChangeHero(90,386)
+        ChangeHero(40,386)
       }
       if (Hero4LV30Flag) {
         PrintLog("INFO-FARM> TRY CHANGING HERO4",1)
-        ChangeHero(90,483)
+        ChangeHero(40,483)
       }
     }
   } else {
@@ -1836,7 +1848,7 @@ DragonFight(){
     }
 
   if ClickHomeAdventure() {
-   if (SearchScreen("Img\Raid.png",1,5,"INFO-DRAGON> CLICK RAID","WARNING-DRAGON> NO RAID BUTTON-Raid.png") or SearchScreen("Img\Raid1.png",1,5,"INFO-DRAGON> CLICK RAID1","WARNING-DRAGON> NO RAID BUTTON-Raid1.png") ) { 
+   if (ForceClickDragon() or SearchScreen("Img\Raid.png",1,5,"INFO-DRAGON> CLICK RAID","WARNING-DRAGON> NO RAID BUTTON-Raid.png") or SearchScreen("Img\Raid1.png",1,5,"INFO-DRAGON> CLICK RAID1","WARNING-DRAGON> NO RAID BUTTON-Raid1.png") ) { 
      if (SearchScreen("Img\RaidNew.png",1,5,"INFO-DRAGON> CLICK NEW RAID","WARNING-DRAGON> NOT FOUND NEW RAID-RaidNew.png") or SearchScreen("Img\RaidNew1.png",1,5,"INFO-DRAGON> CLICK NEW1","WARNING-DRAGON> NOT FOUND NEW RAID1-RaidNew1.png") or SearchScreen("Img\RaidNew2.png",1,5,"INFO-DRAGON> CLICK NEW RAID2-RaidNew2.png","") or SearchScreen("Img\RaidNew3.png",1,5,"INFO-DRAGON> CLICK NEW RAID3-RaidNew3.png","") or ForceClickRaidNew()) {
       ;if (SearchScreen("Img\RaidNotAvailable.png",1,5,"INFO-DRAGON> NO RAID QUOTA ... Back To Home","")) {
       ;  ClickBackToHome()
@@ -2027,11 +2039,17 @@ FarmFight() {
       PrintLog("INFO-FARM> LEADER NOT CHANGE ... SAME AS ARENA",1)
   }
   if ClickHomeAdventure() {
-   if (SearchScreen("Img\Adventure.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure1.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-AdventureHotTime.png") or ForceClickAdvanture()) {
+    sleep 1000
+   if (ForceClickAdvanture() or SearchScreen("Img\Adventure.png",1,2,"INFO-FARM> CLICK ADVENTURE999","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\Adventure1.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-Adventure.png") or SearchScreen("Img\AdventureHotTime.png",1,2,"INFO-FARM> CLICK ADVENTURE","WARNING-FARM> NO ADVENTURE BUTTON-AdventureHotTime.png") ) {
      end := A_TickCount + 180000
 	 ;SearchScreen(ImgName,ClickButton="1",Timeout="5",Text="",TextError="",X1="0",Y1="0",W="0",H="0",PlusX="0",Deviation="20",PlusY="0")
-     While !(SearchScreen(FarmMap,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap1,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap2,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0)) {
-       SearchScreen("Img\Asgar.png",1,0,"INFO-FARM> CLICK ASGAR","")  ; Click ASGAR <<< 
+     
+	 While !(SearchScreen(FarmMap,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap1,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0) or SearchScreen(FarmMap2,1,2,"INFO-FARM> CLICK MAP","INFO-FARM> FINDING MAP",0,0,0,0,0,50,0)) {
+	   if (!(SearchScreen("Img\NextMap.png",0,0,"INFO-FARM> CLICK Next Map","")) and SearchScreen("Img\Moon.png",1,0,"INFO-FARM> CLICK ASGAR","")){
+	      printlog("INFO-FARM> CURRENT IN NEW MAP > CLICK MOONLITISLE")
+	   }
+	   SearchScreen("Img\Asgar.png",1,0,"INFO-FARM> CLICK ASGAR","")  ; Click ASGAR <<< 
+		SearchScreen("Img\Asgar1.png",1,0,"INFO-FARM> CLICK ASGAR1","")  ; Click ASGAR <<< 
        SearchScreen("Img\NextMap.png",1,0,"INFO-FARM> CLICK Next Map","")
        if (A_TickCount >= end) {
          ClickBackToHome()
@@ -2194,8 +2212,6 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
   MainEnd:=A_TickCount + RunHour*3600000
   Initialized()
 
-  
-
   WinGetPos ,CurrentXpos,CurrentYpos,,,A
   loop, {
     CloseDragonPopUP()
@@ -2206,6 +2222,9 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
     OpenGame()
     ;ESCNO()
     ClickBackToHome() ; To ensure we are ready @ Home 
+	PrintLog("INFO-ARENA > BEFORE GO ARENA FIGHT FUNCTION",1)
+
+
     if (CountHitDragon >= MaxHitDragon) { ; Number to hit dragon per number to Fight in a State (Default value is 2)
      if (isFarm=0){
         if(NumRepeatStart<=NumRepeatStage){
@@ -2239,7 +2258,7 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
       }
     }
     TowerFight()
-    ArenaFight()
+ 	ArenaFight()
     Summary()
   }  
 F1::
