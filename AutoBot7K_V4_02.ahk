@@ -1296,49 +1296,49 @@ return 0
 }
 
 ForceClickDragon(){
-ControlClick,x528 y202, ahk_id %hwnd%
+ControlClick,x562 y173, ahk_id %hwnd%
 sleep 300
-ControlClick,x528 y202, ahk_id %hwnd%
+ControlClick,x562 y173, ahk_id %hwnd%
 PrintLog("WARNING-DRAGON> FORCE CLICK ENTER DRAGON",1)
 ForceClickEnterDragon=1
 return 1
 }
 
 ForceClickHomeAdvanture(){
-ControlClick,x727 y586, ahk_id %hwnd%
+ControlClick,x732 y554, ahk_id %hwnd%
 PrintLog("ERROR-FARM> FORCE CLICK HOME ADVENTURE!!! Please CHECK HOME-ADVENTURE PICTURE",1)
 return 1
 }
 
 
 ForceClickAdvanture(){
-ControlClick,x706 y562, ahk_id %hwnd%
+ControlClick,x732 y554, ahk_id %hwnd%
 sleep 100
-ControlClick,x706 y562, ahk_id %hwnd%
+ControlClick,x732 y554, ahk_id %hwnd%
 PrintLog("ERROR-FARM> FORCE CLICK ADVENTURE!!! Please CHECK ADVENTURE PICTURE",1)
 return 1
 }
 
 ForceClickTower(){
-ControlClick,x748 y187, ahk_id %hwnd%
+ControlClick,x726 y151, ahk_id %hwnd%
 sleep 300
-ControlClick,x748 y187, ahk_id %hwnd%
+ControlClick,x726 y151, ahk_id %hwnd%
 PrintLog("WARNING-TOWER> FORCE CLICK ENTER TOWER",1)
 return 1
 }
 
 
 ForceClickRaidNew(){
-ControlClick,x502 y144, ahk_id %hwnd%
+ControlClick,x558 y169, ahk_id %hwnd%
 PrintLog("WARNING-TOWER> FORCE CLICK NEW RAID",1)
 return 1
 }
 
 
 ForceClickArena(){
-ControlClick,x572 y380, ahk_id %hwnd%
+ControlClick,x536 y448, ahk_id %hwnd%
 sleep 300
-ControlClick,x572 y380, ahk_id %hwnd%
+;ControlClick,x536 y448, ahk_id %hwnd%
 PrintLog("WARNING-TOWER> FORCE CLICK Arena",1)
 return 1
 }
@@ -1348,6 +1348,9 @@ TowerFight() {
   ClickBackToHome()
   if ClickHomeAdventure() {
    if (ForceClickTower() or SearchScreen("Img\Tower.png",1,5,"INFO-TOWER> CLICK TOWER","WARNING-TOWER> NO TOWER BUTTON-Tower.png",0,0,0,0,0,50,0) or SearchScreen("Img\Tower1.png",1,5,"INFO-TOWER> CLICK TOWER1","WARNING-TOWER> NO TOWER BUTTON-Tower1.png",0,0,0,0,0,50,0) ) {
+	ControlClick,x712 y557, ahk_id %hwnd%
+	sleep 300
+	ControlClick,x712 y557, ahk_id %hwnd%
      SearchScreen("Img\TowerCollect.png",1,2,"INFO-TOWER> CLICK COLLECT","WARNING-TOWER> NO COLLECT BUTTON")
 	 SearchScreen("Img\TowerNoCap.png",1,2,"INFO-TOWER> CLICK No Cap","WARNING-TOWER> NO cap not found")
      ; if (SearchScreen("Img\TowerGoldChamber.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber.png") or SearchScreen("Img\TowerGoldChamber1.png",1,5,"INFO-TOWER> CLICK GOLD CHAMBER","WARNING-TOWER> NOT FOUND GOLD CHAMBER-TowerGoldChamber1.png") ) {
@@ -1482,6 +1485,7 @@ return 0
 
 
 SortHeroByLevel(){
+PrintLog("SORT HERO BY LEVEL",1)
  ControlClick,x700 y150, ahk_id %hwnd%
  SearchScreen("Img\FarmLevel.png",1,2,"INFO-FARM>CLICK LEVEL","")
  if (SearchScreen("Img\FarmArrowUp.png",1,4,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","") or SearchScreen("Img\FarmArrowUp1.png",1,4,"INFO-FARM>ARROW-UP ...CLICK 2 Times to Refresh","")){
@@ -1617,10 +1621,12 @@ ScrollHero() {
   if (SearchScreen("Img\HeroPage.png",0,2,"INFO-FARM> CHECK IF CURRENT IS HERO MANAGE PAGE... PASS","")) {
     sleep 250
     ControlClick,x527 y453, ahk_id %hwnd%,,,,D
-    ControlClick,x527 y305, ahk_id %hwnd%,,,,U
+    ControlClick,x527 y335, ahk_id %hwnd%,,,,U
     PrintLog("INFO-FARM>SCROLL HERO UP",1)
     sleep 250
     return 1
+  } else {
+    PrintLog("INFO-FARM>SCROLL HERO FAIL ... PLEASE FIX HEROPAGE.png",1)
   }
 return 0
 }
@@ -1662,24 +1668,38 @@ return 0
 
 ChangeHero(x,y) {
  printLog("DEBUG-FARM> CHANGE HERO LOOP",1)
- loop,15 { ; How many loop to scroll hero 
+ roundHero=1
+ loop,25 { ; How many loop to scroll hero 
+ roundHero++
   loop,2 {
-    if(MonSwitch(x,y,324,250)) {
+    if(MonSwitch(x,y,346,244)) {
      return 1
     } else {
-     if(MonSwitch(x,y,463,250)) {
+     if(MonSwitch(x,y,408,244)) {
        return 1
      } else {
-       if(MonSwitch(x,y,592,250)) {
+       if(MonSwitch(x,y,546,244)) {
         return 1
        } else {
-        if(MonSwitch(x,y,724,250)) {
+        if(MonSwitch(x,y,631,244)) {
           return 1
-        }
+        } else {
+          if(MonSwitch(x,y,731,244)) {
+            return 1
+		  }
+         }
        }
      }
     }
-    ControlClick,x565 y147, ahk_id %hwnd%
+    modR:=mod(roundHero,2)
+  	if (modR = 0) {
+    ControlClick,x556 y542, ahk_id %hwnd%
+	sleep 1000
+	} else {
+	ControlClick,x449 y549, ahk_id %hwnd%
+	sleep 1000
+	}
+	
   }
   if (ScrollHero()) {
 
@@ -1913,9 +1933,9 @@ DragonFight(){
                ;}
                if (SkillPriority2Used=0){
 			   ;SearchScreen(ImgName,ClickButton="1",Timeout="5",Text="",TextError="",X1="0",Y1="0",W="0",H="0",PlusX="0",Deviation="20",PlusY="0",DelayClick="0"){
-			     SearchScreen("Img\SkillPriority2.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-1 ","",,,,,,,,DelayClick) 
-				 SearchScreen("Img\SkillPriority2-1.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-2 ","",,,,,,,,DelayClick)  
-				 SearchScreen("Img\SkillPriority2-2.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-1 ","",,,,,,,,DelayClick)  
+			     SearchScreen("Img\SkillPriority1.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-1 ","",,,,,,,,DelayClick) 
+				 SearchScreen("Img\SkillPriority1-1.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-2 ","",,,,,,,,DelayClick)  
+				 SearchScreen("Img\SkillPriority2-1.png",1,1,"INFO-DRAGON> CLICK - SKILL JUPY-1 ","",,,,,,,,DelayClick)  
                  SearchScreen("Img\SkillPriority1-2.png",1,1,"INFO-DRAGON> CLICK - SKILL SIEG-1 ","",,,,,,,,DelayClick)  
                  CounterSkill=0
                }
@@ -1928,14 +1948,14 @@ DragonFight(){
                }
 			   ;SkillDellon
                if (SearchScreen("Img\SkillPriority1.png",1,1,"INFO-DRAGON> CLICK - SKILL SEIN ","",,,,,,,,DelayClick)) {
-                  SkillPriority2Used=1
+                 ; SkillPriority2Used=1
                }
 			   if (SearchScreen("Img\SkillDellon.png",1,1,"INFO-DRAGON> CLICK - SKILL DELLON ","",,,,,,,,DelayClick)) {
-                  SkillPriority2Used=1
+                  ;SkillPriority2Used=1
                }
              }
                if (SearchScreen("Img\SkillPriority1.png",1,1,"INFO-DRAGON> CLICK - SKILL SEIN ","",,,,,,,,DelayClick)) {
-                  SkillPriority2Used=1
+                 ; SkillPriority2Used=1
                }
                ;sleep 200
                ;if (A_TickCount >= TimeMove) {
@@ -2212,7 +2232,9 @@ iniRead, NumDragonRepeat, %A_WorkingDir%\Config.ini, Common, NumDragonRepeat
   MainEnd:=A_TickCount + RunHour*3600000
   Initialized()
 
+
   WinGetPos ,CurrentXpos,CurrentYpos,,,A
+
   loop, {
     CloseDragonPopUP()
     if (A_TickCount >= MainEnd){
